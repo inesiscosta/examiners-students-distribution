@@ -3,42 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Assignments</title>
+  <title>Student Assignments</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    button {
+      margin: 20px 0;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    p {
+      margin: 5px 0;
+      line-height: 1.6;
+    }
+  </style>
 </head>
 <body>
-  <h1>Assignments and Workload</h1>
-  <h3>Assignments</h3>
-  <pre id="assignments"></pre>
-  <h3>Supervisor Workload</h3>
-  <pre id="workload"></pre>
-
-  <script>
-    const students = JSON.parse(localStorage.getItem("students"));
-    const examiners = JSON.parse(localStorage.getItem("examiners"));
-    const constraints = JSON.parse(localStorage.getItem("constraints"));
-
-    function assignSupervisors() {
-      const assignments = {};
-      const workload = {};
-      examiners.forEach(examiner => (workload[examiner] = 0));
-
-      students.forEach(student => {
-        const eligibleExaminers = examiners.filter(
-          examiner => !constraints[examiner]?.includes(student)
-        );
-
-        eligibleExaminers.sort((a, b) => workload[a] - workload[b]);
-        const assigned = eligibleExaminers.slice(0, 2);
-        assignments[student] = assigned;
-
-        assigned.forEach(examiner => workload[examiner]++);
-      });
-
-      document.getElementById("assignments").textContent = JSON.stringify(assignments, null, 2);
-      document.getElementById("workload").textContent = JSON.stringify(workload, null, 2);
-    }
-
-    assignSupervisors();
-  </script>
+  <h1>Student Examiner Assignments</h1>
+  <div id="assignments"></div>
+  <div id="workload"></div>
+  <button id="randomizeButton">Re-Randomize Assignments</button>
+  <script src="./assign.js"></script>
 </body>
 </html>
