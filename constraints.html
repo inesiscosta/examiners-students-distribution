@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alunos e Avaliadores</title>
+  <title>Restrições</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <h1>Passo 2: Insira as Restrições</h1>
   <div id="examiner-constraints"></div>
-  <button onclick="validateConstraints()">Aplicar Restrições</button>
+  <button onclick="validateConstraints()">Validate Constraints</button>
   <p id="error"></p>
 
   <script>
@@ -21,10 +21,10 @@
       const container = document.getElementById("examiner-constraints");
       examiners.forEach(examiner => {
         const label = document.createElement("h2");
-        label.textContent = `Enter students ${examiner} cannot examine:`;
+        label.textContent = `Insira os nomes do Alunos que ${examiner} não pode avaliar.`;
         const textarea = document.createElement("textarea");
         textarea.id = `constraint-${examiner}`;
-        textarea.classList.add("constraint"); // Add class to apply specific styles
+        textarea.classList.add("constraint");
         container.appendChild(label);
         container.appendChild(textarea);
       });

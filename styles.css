@@ -15,11 +15,11 @@ h1, h2 {
 
 .column {
   flex: 1;
-  margin: 0 20px;
+  margin: 0 20px; /* Increased margin to add more space between columns */
 }
 
 textarea {
-  width: 100%;
+  width: calc(100% - 40px); /* Adjust width to add padding on both sides */
   height: 400px;
   margin-bottom: 20px;
   padding: 10px;
@@ -29,7 +29,8 @@ textarea {
 }
 
 textarea.constraint {
-  height: 100px;
+  height: 100px; /* Reduced height for constraint text boxes */
+  width: calc(100% - 40px); /* Adjust width to add padding on both sides */
 }
 
 button {
@@ -57,4 +58,9 @@ button:hover {
 p {
   margin: 5px 0;
   line-height: 1.6;
+}
+
+#nextButton {
+  display: flex;
+  justify-content: flex-end;
 }
