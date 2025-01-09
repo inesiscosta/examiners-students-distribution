@@ -4,12 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Restrições</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Passo 3: Insira as Restrições</h1>
+  <h1>Passo 2: Insira as Restrições</h1>
   <div id="examiner-constraints"></div>
   <button onclick="validateConstraints()">Validate Constraints</button>
-  <p id="error" style="color: red; display: none;"></p>
+  <p id="error"></p>
 
   <script>
     const students = JSON.parse(localStorage.getItem("students"));
@@ -24,7 +25,6 @@
         const textarea = document.createElement("textarea");
         textarea.id = `constraint-${examiner}`;
         textarea.rows = 5;
-        textarea.cols = 50;
         container.appendChild(label);
         container.appendChild(textarea);
       });

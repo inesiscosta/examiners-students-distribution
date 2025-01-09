@@ -3,28 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alunos</title>
+  <title>Alunos e Avaliadores</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Passo 1: Insira os Nomes dos Alunos</h1>
-  <textarea id="students" rows="10" cols="50" placeholder="Por favor insira os nomes dos alunos (um por linha)."></textarea>
-  <button onclick="goToExaminers()">Seguinte</button>
-  <p id="error" style="color: red; display: none;">Por favor insira pelo menos um nome.</p>
+  <h1>Passo 1: Insira os Nomes dos Alunos e Avaliadores</h1>
+  <div class="container">
+    <div class="column">
+      <h2>Alunos</h2>
+      <textarea id="students" placeholder="Por favor insira os nomes dos alunos (um por linha)."></textarea>
+    </div>
+    <div class="column">
+      <h2>Avaliadores</h2>
+      <textarea id="examiners" placeholder="Insira os nomes dos avaliadores (um por linha)."></textarea>
+    </div>
+  </div>
+  <button onclick="goToConstraints()">Seguinte</button>
+  <p id="error">Por favor insira pelo menos um nome em cada campo.</p>
 
   <script>
-    function goToExaminers() {
+    function goToConstraints() {
       const studentInput = document.getElementById("students").value.trim();
-      if (studentInput === "") {
+      const examinerInput = document.getElementById("examiners").value.trim();
+      if (studentInput === "" || examinerInput === "") {
         document.getElementById("error").style.display = "block";
         return;
       }
       document.getElementById("error").style.display = "none";
 
-      // Save students to local storage.
+      // Save students and examiners to local storage.
       localStorage.setItem("students", JSON.stringify(studentInput.split("\n").map(s => s.trim())));
+      localStorage.setItem("examiners", JSON.stringify(examinerInput.split("\n").map(e => e.trim())));
 
-      // Redirect to Examiners page.
-      window.location.href = "examiners.html";
+      // Redirect to constraints page.
+      window.location.href = "constraints.html";
     }
   </script>
 </body>

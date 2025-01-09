@@ -4,12 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Avaliadores</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <h1>Passo 2: Insira o nome ou as iniciais dos Avaliadores</h1>
-  <textarea id="examiners" rows="5" cols="50" placeholder="Insira os nomes (um por linha)."></textarea>
+  <textarea id="examiners" placeholder="Insira os nomes (um por linha)."></textarea>
   <button onclick="goToConstraints()">Next</button>
-  <p id="error" style="color: red; display: none;">Por favor insira pelo menos um nome.</p>
+  <p id="error">Por favor insira pelo menos um nome.</p>
 
   <script>
     function goToConstraints() {

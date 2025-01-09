@@ -32,9 +32,11 @@ document.addEventListener("DOMContentLoaded", () => {
       // Shuffle eligible examiners to randomize the selection
       shuffleArray(eligibleExaminers);
 
-      // Randomly assign two eligible supervisors
-      const assigned = eligibleExaminers.slice(0, 2);
+      // Sort eligible supervisors by current workload to balance assignments
+      eligibleExaminers.sort((a, b) => supervisorWorkload[a] - supervisorWorkload[b]);
 
+      // Assign two supervisors with the least workload
+      const assigned = eligibleExaminers.slice(0, 2);
       assignments[student] = assigned;
 
       // Update workloads
