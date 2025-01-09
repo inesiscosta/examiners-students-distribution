@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avaliadores</title>
+</head>
+<body>
+  <h1>Passo 2: Insira o nome ou as iniciais dos Avaliadores</h1>
+  <textarea id="examiners" rows="5" cols="50" placeholder="Insira os nomes (um por linha)."></textarea>
+  <button onclick="goToConstraints()">Next</button>
+  <p id="error" style="color: red; display: none;">Por favor insira pelo menos um nome.</p>
+
+  <script>
+    function goToConstraints() {
+      const examinerInput = document.getElementById("examiners").value.trim();
+      if (examinerInput === "") {
+        document.getElementById("error").style.display = "block";
+        return;
+      }
+      document.getElementById("error").style.display = "none";
+
+      // Save examiners to localStorage
+      localStorage.setItem("examiners", JSON.stringify(examinerInput.split("\n").map(e => e.trim())));
+
+      // Redirect to constraints page
+      window.location.href = "constraints.html";
+    }
+  </script>
+</body>
+</html>

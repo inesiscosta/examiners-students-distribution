@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restrições</title>
+</head>
+<body>
+  <h1>Passo 3: Insira as Restrições</h1>
+  <div id="examiner-constraints"></div>
+  <button onclick="validateConstraints()">Validate Constraints</button>
+  <p id="error" style="color: red; display: none;"></p>
+
+  <script>
+    const students = JSON.parse(localStorage.getItem("students"));
+    const examiners = JSON.parse(localStorage.getItem("examiners"));
+    const constraints = {};
+
+    function createConstraintForms() {
+      const container = document.getElementById("examiner-constraints");
+      examiners.forEach(examiner => {
+        const label = document.createElement("h2");
+        label.textContent = `Enter students ${examiner} cannot examine:`;
+        const textarea = document.createElement("textarea");
+        textarea.id = `constraint-${examiner}`;
+        textarea.rows = 5;
+        textarea.cols = 50;
+        container.appendChild(label);
+        container.appendChild(textarea);
+      });
+    }
+
+    function validateConstraints() {
+      let hasError = false;
+      let errorMessage = "";
+      examiners.forEach(examiner => {
+        const input = document.getElementById(`constraint-${examiner}`).value.trim();
+        const invalidNames = [];
+        constraints[examiner] = input.split("\n").map(name => name.trim()).filter(name => {
+          if (!students.includes(name) && name !== "") {
+            invalidNames.push(name);
+            return true;
+          }
+          return false;
+        });
+
+        if (invalidNames.length > 0) {
+          hasError = true;
+          errorMessage += `Invalid students for ${examiner}: ${invalidNames.join(", ")}\n`;
+        }
+      });
+
+      if (hasError) {
+        document.getElementById("error").style.display = "block";
+        document.getElementById("error").textContent = errorMessage;
+      } else {
+        document.getElementById("error").style.display = "none";
+
+        // Save constraints to localStorage
+        localStorage.setItem("constraints", JSON.stringify(constraints));
+
+        // Redirect to assignments
+        window.location.href = "assign.html";
+      }
+    }
+
+    createConstraintForms();
+  </script>
+</body>
+</html>

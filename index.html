@@ -3,130 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Examiner Assignment</title>
+  <title>Alunos</title>
 </head>
 <body>
-  <h1>Examiner Assignment Tool</h1>
-
-  <!-- Input section for students -->
-  <h2>Step 1: Enter Student Names</h2>
-  <textarea id="students" rows="10" cols="50" placeholder="Enter student names, one per line"></textarea>
-  <button onclick="processStudents()">Submit Students</button>
-  <p id="student-error" style="color: red; display: none;">Please enter at least one student name.</p>
-
-  <!-- Input section for examiners -->
-  <h2>Step 2: Enter Examiner Names</h2>
-  <textarea id="examiners" rows="5" cols="50" placeholder="Enter examiner names, one per line"></textarea>
-  <button onclick="processExaminers()">Submit Examiners</button>
-  <p id="examiner-error" style="color: red; display: none;">Please enter at least one examiner name.</p>
-
-  <!-- Input constraints for examiners -->
-  <h2>Step 3: Enter Examiner Constraints</h2>
-  <div id="constraints"></div>
-  <button onclick="validateConstraints()">Validate Constraints</button>
-  <p id="constraint-error" style="color: red; display: none;"></p>
-
-  <!-- Results -->
-  <h2>Results</h2>
-  <button onclick="assignSupervisors()">Assign Supervisors</button>
-  <h3>Assignments</h3>
-  <pre id="assignments"></pre>
-  <h3>Supervisor Workload</h3>
-  <pre id="workload"></pre>
+  <h1>Passo 1: Insira os Nomes dos Alunos</h1>
+  <textarea id="students" rows="10" cols="50" placeholder="Por favor insira os nomes dos alunos (um por linha)."></textarea>
+  <button onclick="goToExaminers()">Seguinte</button>
+  <p id="error" style="color: red; display: none;">Por favor insira pelo menos um nome.</p>
 
   <script>
-    let students = [];
-    let examiners = [];
-    let examinerConstraints = {};
-
-    function processStudents() {
+    function goToExaminers() {
       const studentInput = document.getElementById("students").value.trim();
       if (studentInput === "") {
-        document.getElementById("student-error").style.display = "block";
+        document.getElementById("error").style.display = "block";
         return;
       }
-      document.getElementById("student-error").style.display = "none";
-      students = studentInput.split("\\n").map(name => name.trim());
-      alert(`Processed ${students.length} students.`);
-    }
+      document.getElementById("error").style.display = "none";
 
-    function processExaminers() {
-      const examinerInput = document.getElementById("examiners").value.trim();
-      if (examinerInput === "") {
-        document.getElementById("examiner-error").style.display = "block";
-        return;
-      }
-      document.getElementById("examiner-error").style.display = "none";
-      examiners = examinerInput.split("\\n").map(name => name.trim());
-      generateConstraintsForm();
-      alert(`Processed ${examiners.length} examiners.`);
-    }
+      // Save students to local storage.
+      localStorage.setItem("students", JSON.stringify(studentInput.split("\n").map(s => s.trim())));
 
-    function generateConstraintsForm() {
-      const constraintsDiv = document.getElementById("constraints");
-      constraintsDiv.innerHTML = "";
-      examiners.forEach(examiner => {
-        const label = document.createElement("label");
-        label.textContent = `Students ${examiner} cannot examine:`;
-        const textarea = document.createElement("textarea");
-        textarea.id = `constraint-${examiner}`;
-        textarea.rows = 3;
-        textarea.cols = 50;
-        constraintsDiv.appendChild(label);
-        constraintsDiv.appendChild(document.createElement("br"));
-        constraintsDiv.appendChild(textarea);
-        constraintsDiv.appendChild(document.createElement("br"));
-      });
-    }
-
-    function validateConstraints() {
-      examinerConstraints = {};
-      let hasError = false;
-      let errorMessage = "";
-
-      examiners.forEach(examiner => {
-        const textarea = document.getElementById(`constraint-${examiner}`);
-        const constraints = textarea.value.trim().split("\\n").map(name => name.trim());
-        examinerConstraints[examiner] = constraints;
-
-        constraints.forEach(constraint => {
-          if (!students.includes(constraint) && constraint !== "") {
-            hasError = true;
-            errorMessage += `Error: ${constraint} (for examiner ${examiner}) does not exist in the student list.\\n`;
-          }
-        });
-      });
-
-      const errorElement = document.getElementById("constraint-error");
-      if (hasError) {
-        errorElement.style.display = "block";
-        errorElement.textContent = errorMessage;
-      } else {
-        errorElement.style.display = "none";
-        alert("All constraints validated successfully!");
-      }
-    }
-
-    function assignSupervisors() {
-      const assignments = {};
-      const workload = {};
-      examiners.forEach(examiner => (workload[examiner] = 0));
-
-      students.forEach(student => {
-        const eligibleExaminers = examiners.filter(
-          examiner => !examinerConstraints[examiner]?.includes(student)
-        );
-
-        eligibleExaminers.sort((a, b) => workload[a] - workload[b]);
-        const assigned = eligibleExaminers.slice(0, 2);
-        assignments[student] = assigned;
-
-        assigned.forEach(examiner => workload[examiner]++);
-      });
-
-      // Display results
-      document.getElementById("assignments").textContent = JSON.stringify(assignments, null, 2);
-      document.getElementById("workload").textContent = JSON.stringify(workload, null, 2);
+      // Redirect to Examiners page.
+      window.location.href = "examiners.html";
     }
   </script>
 </body>
