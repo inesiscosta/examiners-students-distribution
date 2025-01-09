@@ -1,7 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
   const students = JSON.parse(localStorage.getItem("students")) || [];
-  const examiners = JSON.parse(localStorage.getItem("examiners")) || {};
-  
+  const examiners = JSON.parse(localStorage.getItem("examiners")) || [];
+  const constraints = JSON.parse(localStorage.getItem("constraints")) || {};
+
   const assignmentsDiv = document.getElementById("assignments");
   const workloadDiv = document.getElementById("workload");
   const randomizeButton = document.getElementById("randomizeButton");
@@ -11,14 +12,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const supervisorWorkload = {};
 
     // Initialize workloads
-    Object.keys(examiners).forEach((examiner) => {
+    examiners.forEach((examiner) => {
       supervisorWorkload[examiner] = 0;
     });
 
     students.forEach((student) => {
       // Determine eligible supervisors for the student
-      const eligibleExaminers = Object.keys(examiners).filter(
-        (examiner) => !examiners[examiner].includes(student)
+      const eligibleExaminers = examiners.filter(
+        (examiner) => !constraints[examiner] || !constraints[examiner].includes(student)
       );
 
       // Randomly assign two eligible supervisors
