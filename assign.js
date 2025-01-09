@@ -7,6 +7,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const workloadDiv = document.getElementById("workload");
   const randomizeButton = document.getElementById("randomizeButton");
 
+  const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  };
+
   const assignExaminers = () => {
     const assignments = {};
     const supervisorWorkload = {};
@@ -22,10 +29,11 @@ document.addEventListener("DOMContentLoaded", () => {
         (examiner) => !constraints[examiner] || !constraints[examiner].includes(student)
       );
 
+      // Shuffle eligible examiners to randomize the selection
+      shuffleArray(eligibleExaminers);
+
       // Randomly assign two eligible supervisors
-      const assigned = eligibleExaminers.sort(
-        (a, b) => supervisorWorkload[a] - supervisorWorkload[b]
-      ).slice(0, 2);
+      const assigned = eligibleExaminers.slice(0, 2);
 
       assignments[student] = assigned;
 
