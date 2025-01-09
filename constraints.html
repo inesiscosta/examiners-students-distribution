@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Restrições</title>
+  <title>Alunos e Avaliadores</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <h1>Passo 2: Insira as Restrições</h1>
   <div id="examiner-constraints"></div>
-  <button onclick="validateConstraints()">Validate Constraints</button>
+  <button onclick="validateConstraints()">Aplicar Restrições</button>
   <p id="error"></p>
 
   <script>
@@ -24,7 +24,7 @@
         label.textContent = `Enter students ${examiner} cannot examine:`;
         const textarea = document.createElement("textarea");
         textarea.id = `constraint-${examiner}`;
-        textarea.rows = 5;
+        textarea.classList.add("constraint"); // Add class to apply specific styles
         container.appendChild(label);
         container.appendChild(textarea);
       });
@@ -46,7 +46,7 @@
 
         if (invalidNames.length > 0) {
           hasError = true;
-          errorMessage += `Invalid students for ${examiner}: ${invalidNames.join(", ")}\n`;
+          errorMessage += `O ${examiner} tem alunos inválidos ${invalidNames.join(", ")}. Por favor use os mesmos nomes que usou na etapa anterior.\n`;
         }
       });
 

@@ -15,7 +15,7 @@ h1, h2 {
 
 .column {
   flex: 1;
-  margin: 0 10px;
+  margin: 0 20px;
 }
 
 textarea {
@@ -26,6 +26,10 @@ textarea {
   border: 1px solid #ccc;
   border-radius: 4px;
   resize: vertical;
+}
+
+textarea.constraint {
+  height: 100px;
 }
 
 button {
